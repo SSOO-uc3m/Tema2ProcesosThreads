@@ -5,7 +5,7 @@
 
 void * thread_function(void *arg) {
   int i;
-  for ( i=0 ; i < 2 ; i++ ) {
+  for ( i=0 ; i <= 2 ; i++ ) {
     printf("Thread says hi!\n");
     sleep(1);
   }

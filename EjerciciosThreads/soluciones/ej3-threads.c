@@ -7,12 +7,12 @@ int myglobal;
 
  void * imprimir_puntos(void *arg) {
   int i,j;
-  for ( i=0; i<20; i++ ) {
+  for ( i=0; i<200000; i++ ) {
     j=myglobal;
     j=j+1;
     printf(".");
     fflush(stdout);
-   sleep(1);
+   //sleep(1);
     myglobal=j;
   }
   return NULL;
@@ -28,11 +28,11 @@ int main(void) {
     abort();
   }
 
-  for ( i=0; i<20; i++) {
+  for ( i=0; i<2000000; i++) {
     myglobal=myglobal+1;
     printf("o");
     fflush(stdout);
-    sleep(1);
+    //sleep(1);
   }
 
   if ( pthread_join ( mythread, NULL ) ) {

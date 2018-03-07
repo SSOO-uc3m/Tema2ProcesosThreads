@@ -1,27 +1,38 @@
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
 
-void capturaSenal1 (int s){
-	  printf ("Ha llegado la señal: %d\n",s);
-          printf ("tiempo:%d\n", time(NULL));
+void capturaSegnalSigusr1 (int s){
+	  time_t horaActual = time(NULL);
+	  char* sHoraActual = ctime(&horaActual);
+	  printf ("Le llega al padre la segnal SIGUSR1: %d\n",s);
+          printf ("Tiempo de llegada:%s\n", sHoraActual);
 }
+
 void muerteHijo (int s){
-	  printf ("Ha terminado el hijo: %d\n",s);
-          printf ("tiempo:%d\n", time(NULL));
+	  time_t horaActual = time(NULL);
+	  char* sHoraActual = ctime(&horaActual);
+	  printf ("Le llega al padre la seÃ±al de que ha terminado el hijo: %d\n",s);
+          printf ("tiempo:%s\n", sHoraActual);
 }
-main (){
-int i;
-struct sigaction sa1,sa2;
 
-  if (fork() == 0){
-   // for (i=0; i<10; i=i+2){
-      sleep (60);
-      kill ( getppid(), SIGUSR1);
-//    }
-    sleep(3);
+int main (){
+	int i;
+	struct sigaction sa1,sa2;
+
+  if (fork() == 0){ /* proceso Hijo*/
+      printf("\tProceso hijo: duermo 5 segundos\n");
+      sleep (5);
+      printf("\tProceso hijo: le envio a mi padre la seÃ±al SIGUSR1\n");
+      kill ( getppid(), SIGUSR1); // envÃ­a una seÃ±al al proceso padre
+      printf("\tProceso hijo: duermo otros 5 segundos\n");
+      sleep(5);
+      exit(0);
   }
-  else {
-    sa1.sa_handler=capturaSenal1;
+  else { /*proceso padre*/
+    sa1.sa_handler=capturaSegnalSigusr1;
     sa1.sa_flags=0;
     sigemptyset(&(sa1.sa_mask));
     sigaction (SIGUSR1, &sa1,NULL);
@@ -31,9 +42,9 @@ struct sigaction sa1,sa2;
     sigemptyset(&(sa2.sa_mask));
     sigaction (SIGCHLD, &sa2,NULL);
 
-
+    printf("proceso padre: Espero a que me lleguen seÃ±ales\n");
+    pause(); // == sleep(999999) 
     pause(); // == sleep(999999)
-    pause(); // == sleep(999999)
-    printf (Ò%s \nÓ, ÒSE„AL RECIBIDAÓ );
+    printf ("proceso padre SEGNALES RECIBIDAS\n" );
   }
 }

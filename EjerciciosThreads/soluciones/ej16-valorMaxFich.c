@@ -15,6 +15,7 @@ void	*busca_max(void	*p)	{
 		int	i;
 		param_t *param = (param_t*)p;
 		param->max	= param->vec[param->inicio];
+
 		for	(i=0;i!=param->fin;++i) {
 				if (param->vec[i]>param->max) {
 					param->max	= param->vec[i];
@@ -32,8 +33,8 @@ int	calcula_maximo(int	*vec,	int	tam, int	nhilos) {
 		param =	malloc(sizeof(param_t) *nhilos);
 		th	=	malloc(sizeof(pthread_t) *nhilos);
 		for	(i=0;i!=nhilos;++i)	{
-			param[i].inicio	= tam/nhilos;
-			param[i].fin=(i==nhilos-1)?tam:(tam+1)/nhilos;
+			param[i].inicio	= tam/nhilos*i;
+			param[i].fin=(i==nhilos-1)?tam:(tam+1)/nhilos*i;
 			param[i].vec = vec;
 			param[i].max=0;
 		}

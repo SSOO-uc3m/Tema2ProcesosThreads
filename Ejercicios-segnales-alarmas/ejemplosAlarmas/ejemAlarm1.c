@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <signal.h>
+#include <unistd.h>
 
 void llegoAlarma (int s){
-	  printf ("Ha llegado la señal de alarma: %d\n",s);
+	  printf ("Ha llegado la segnal de alarma: %d\n",s);
 }
-main (){
+int main (){
 int i,faltan;
 struct sigaction sa;
 

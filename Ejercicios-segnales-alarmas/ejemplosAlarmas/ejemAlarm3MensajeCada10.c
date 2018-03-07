@@ -12,7 +12,7 @@ int main() {
 	
 	// establece el manejador para SIGALRM 
 	act.sa_handler = tratar_alarma;
-	act.sa_flags = 0; // ninguna acción especifica 
+	act.sa_flags = 0; // ninguna accion especifica 
 	sigaction(SIGALRM, &act, NULL);
 
 	act.sa_handler = SIG_IGN; // ignora SIGINT 
