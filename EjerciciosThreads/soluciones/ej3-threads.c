@@ -31,7 +31,7 @@ int main(void) {
   for ( i=0; i<2000000; i++) {
     myglobal=myglobal+1;
     printf("o");
-    fflush(stdout);
+    //fflush(stdout);
     //sleep(1);
   }
 

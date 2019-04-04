@@ -13,9 +13,9 @@ pthread_t thread;
 int rango[]={1,2,3,4,5,6,7,8,9,10};
 int *resultado;
     
-    pthread_attr_init(&attr);
+   // pthread_attr_init(&attr);
    // Creo el thread
-    pthread_create(&thread,&attr,suma,&rango);
+    pthread_create(&thread,NULL,suma,&rango);
   // Espero la finalizaciÛn del thread
     pthread_join(thread,(void **)&resultado);
     printf("\nSuma  en Prog. Principal: %d\n",*resultado);

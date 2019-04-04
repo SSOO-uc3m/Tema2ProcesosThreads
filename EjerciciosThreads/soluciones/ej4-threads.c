@@ -19,7 +19,7 @@ void *hello(void *arg)
 int main(int argc, char* argv[]) {
 	int n,i;
 	pthread_t *threads;
-	pthread_attr_t pthread_custom_attr;
+//	pthread_attr_t pthread_custom_attr;
 	parm *p;
 
 	if (argc != 2)
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	threads=(pthread_t *)malloc(n*sizeof(*threads));
-	pthread_attr_init(&pthread_custom_attr);
+	//pthread_attr_init(&pthread_custom_attr);
 
 	p=(parm *)malloc(sizeof(parm)*n);
 	/* Start up thread */
@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 	for (i=0; i<n; i++)
 	{
 		p[i].id=i;
-		pthread_create(&threads[i], &pthread_custom_attr, hello, (void *)(p+i));
+		pthread_create(&threads[i], NULL, hello, (void *)(p+i));
 	}
 
 	/* Synchronize the completion of each thread. */

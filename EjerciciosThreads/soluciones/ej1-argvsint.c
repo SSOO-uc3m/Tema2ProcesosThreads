@@ -1,7 +1,7 @@
 /* Este programa sirve como ejemplo del uso de threads con parámetros
   Hay que compilarlo con gcc -lpthread argvint-1.c
 */
-
+#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <pthread.h>
@@ -29,27 +29,33 @@ void *f( void *arg){
 
 int main (int argc, char *argv[]){
 	pthread_attr_t attr;
+	int detached = 0;
 	int detachstate;
 	int argu[3];
-	pthread_t thid;
-	
+	pthread_t hilo;
+
 	argu[0]=99;
 	argu[1]=11;
 	argu[2]=22;
-	printf ("En el main:argu:%d, %d, %d:\n", argu[0],argu[1], argu[2]);	
+	printf ("En el main:argu:%d, %d, %d:\n", argu[0],argu[1], argu[2]);
 
 	//f(argu);
         pthread_attr_init (&attr);
         //Puedes probar a crearlo DETACHED y esperar con un sleep aunque es peor opción
 	if ( argc == 2 && strcmp(argv[1],"-d") ){
-			pthread_attr_setdetachstate (&attr, PTHREAD_CREATE_DETACHED);
+		printf("Hilo independiente (detached)\n");
+		pthread_attr_setdetachstate (&attr, PTHREAD_CREATE_DETACHED);
+	detached = 1;
 	}
-	
-	pthread_create (&thid, &attr, f, (void *)argu);
+
+
+	pthread_create (&hilo, &attr, f, (void *)argu);
 	pthread_attr_getdetachstate (&attr, &detachstate);
-	
-	pthread_join(thid,NULL);
-	//sleep(2);
+
+	if (!detached) {
+		pthread_join(hilo,NULL);
+	}
+	else sleep(2);
 	exit(0);
 }
 
